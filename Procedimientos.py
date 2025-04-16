@@ -128,11 +128,7 @@ class Process:
         self.buscar_niveles(songsTree, songsTree.root, contador, artistMayor, c)
         if not contador:
             return None # Retorna None si no se encontraron canciones del artista en el árbol
-        niveles = ""
-        for nivel in contador:
-            niveles = niveles + ", " + nivel # Concatena los niveles encontrados en una cadena separados por comas
-
-        return niveles
+        return "\n".join(f"• {c}" for c in contador)
     
     #Punto 4 = ¿Cuál es la altura del árbol AVL de canciones? ¿Y del árbol AVL de artistas?
     def alturas(self, songsTree, artistsTree):
@@ -222,10 +218,7 @@ class Process:
 
         lista_canciones = []  # Lista para almacenar las canciones que cumplen la condición
         self.buscarCancionesConDuracionMayor(songsTreeRoot, promedio, lista_canciones)
-        songs = "" # Se concatenan los nombres de las canciones en una cadena
-        for cancion in lista_canciones:
-            songs = songs + ", " + str(cancion)
-        return songs
+        return "\n".join(f"• {c}" for c in lista_canciones) # Se concatenan los nombres de las canciones en una cadena
     
     #Punto 7 = ¿Cuál es la complejidad temporal de buscar todas las canciones de un artista específico usando la estructura implementada? Justifica tu respuesta.
     def canciones_un_artista(self, songsTree, songsTreeRoot, contador, artist1):
@@ -272,7 +265,7 @@ class Process:
         if contador == None:
             return   # Si el árbol está vacío
         
-        return "\n".join(f"• {c}" for c in contador)
+        return "\n".join(f"• {c}" for c in contador) # Se concatenan los nombres de las canciones en una cadena
     
     #Punto 9 = Implementa un algoritmo que permita obtener las N canciones más populares de la playlist en tiempo O(log(n) + N).
     def obtener_n_canciones_populares(self, arbol_popularidad, N: int):
