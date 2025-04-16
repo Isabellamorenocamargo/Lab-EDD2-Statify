@@ -11,15 +11,17 @@ from TreeVisualizer import AVLTreeVisualizer
 class StatifyApp(tk.Tk):
     def __init__(self):
         super().__init__()
-        self.title("Statify - Análisis de Árboles AVL")
+        self.title("🎵 Statify - Playlist Analyzer")
         self.geometry("800x700")
+        self.iconbitmap("statify_logo.ico")
+        
         self.api = API.API()
         self.process = Procedimientos.Process()
         # Inicializamos los árboles (se recargan al cargar playlist)
         self.songsTree = AVL.AVLTree()
         self.artistsTree = AVL.AVLTree()
         self.popularityTree = AVL.AVLTree()
-        
+
         self.create_widgets()
         self.inicializar_playlist()
 
