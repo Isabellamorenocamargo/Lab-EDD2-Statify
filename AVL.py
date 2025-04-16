@@ -152,15 +152,24 @@ class AVLTree:
         return self.searchByName(node.right, name)
     
     def convertAscii(self, string):
+        """
+        Convierte una cadena de texto en un número entero largo 
+        concatenando los valores ASCII definidos en un archivo JSON.
+
+        @param string: Cadena de texto que se desea convertir (por ejemplo, un ID o nombre).
+        @return: Número entero generado por la concatenación de los valores ASCII de cada carácter.
+        """
         ascii = ""
-        # Se carga el archivo JSON que contiene los valores en ASCII de cada letra
+
+        # Carga el archivo JSON que contiene la tabla de equivalencias ASCII
         with open('asciiTable.json', 'r', encoding='utf-8') as file:
             asciiFile = json.load(file)
-        # Se recorre el string, se obtiene el valor de cada letra en ascii y se concatena a un string
+
+        # Recorre cada carácter de la cadena y concatena su valor ASCII
         for i in range(len(string)):
             numero = int(asciiFile[string[i]])
             ascii += str(numero)
 
-        # Se convierte el string en un numero entero y se retorna como id
+        # Convierte la cadena completa en un número entero y lo retorna
         numAscii = int(ascii)
         return numAscii
