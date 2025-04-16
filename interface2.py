@@ -19,6 +19,7 @@ class StatifyApp(tk.Tk):
         self.songsTree = AVL.AVLTree()
         self.artistsTree = AVL.AVLTree()
         self.popularityTree = AVL.AVLTree()
+        self.configure(bg="#FFFBF0")
         
         self.create_widgets()
         self.inicializar_playlist()
@@ -34,52 +35,63 @@ class StatifyApp(tk.Tk):
 
         # Botones para cada acción
         btn_artista_canciones = tk.Button(self.frame_botones, text="Artista con más canciones", width=30,
-                                          command=self.mostrar_artista_con_mas_canciones)
+                                          command=self.mostrar_artista_con_mas_canciones, bg='#FAF2DD')
         btn_artista_canciones.grid(row=0, column=0, padx=5, pady=5)
 
         btn_artista_popular = tk.Button(self.frame_botones, text="Artista con mayor popularidad", width=30,
-                                        command=self.mostrar_artista_mas_popular)
+                                        command=self.mostrar_artista_mas_popular, bg='#FAF2DD')
         btn_artista_popular.grid(row=0, column=1, padx=5, pady=5)
 
         btn_niveles_artista = tk.Button(self.frame_botones, text="Niveles del artista más popular", width=30,
-                                        command=self.mostrar_niveles_artista)
+                                        command=self.mostrar_niveles_artista, bg='#FAF2DD')
         btn_niveles_artista.grid(row=1, column=0, padx=5, pady=5)
 
         btn_alturas_arboles = tk.Button(self.frame_botones, text="Alturas de los árboles", width=30,
-                                        command=self.mostrar_alturas)
+                                        command=self.mostrar_alturas, bg='#FAF2DD')
         btn_alturas_arboles.grid(row=1, column=1, padx=5, pady=5)
 
         btn_rotaciones = tk.Button(self.frame_botones, text="Número de rotaciones (canciones)", width=30,
-                                   command=self.mostrar_rotaciones)
+                                   command=self.mostrar_rotaciones, bg='#FAF2DD')
         btn_rotaciones.grid(row=2, column=0, padx=5, pady=5)
 
         btn_duracion_promedio = tk.Button(self.frame_botones, text="Canciones con duración > promedio", width=30,
-                                          command=self.mostrar_canciones_mayor_duracion)
+                                          command=self.mostrar_canciones_mayor_duracion, bg='#FAF2DD')
         btn_duracion_promedio.grid(row=2, column=1, padx=5, pady=5)
 
         btn_buscar_artista = tk.Button(self.frame_botones, text="Buscar canciones por artista", width=30,
-                                       command=self.buscar_canciones_artista)
+                                       command=self.buscar_canciones_artista, bg='#FAF2DD')
         btn_buscar_artista.grid(row=3, column=0, padx=5, pady=5)
 
         btn_top_canciones = tk.Button(self.frame_botones, text="Top N canciones populares", width=30,
-                                      command=self.mostrar_top_n_canciones)
+                                      command=self.mostrar_top_n_canciones, bg='#FAF2DD')
         btn_top_canciones.grid(row=3, column=1, padx=5, pady=5)
 
         btn_visualizar_arbol = tk.Button(self.frame_botones, text="Visualizar árboles (SVG)", width=30,
-                                         command=self.visualizar_arbol)
+                                         command=self.visualizar_arbol, bg='#FAF2DD')
         btn_visualizar_arbol.grid(row=4, column=0, padx=5, pady=5)
 
         btn_nueva_playlist = tk.Button(self.frame_botones, text="Consultar otra playlist", width=30,
-                                       command=self.consultar_nueva_playlist)
+                                       command=self.consultar_nueva_playlist, bg='#FAF2DD')
         btn_nueva_playlist.grid(row=4, column=1, padx=5, pady=5)
 
-        btn_salir = tk.Button(self, text="Salir", width=20, command=self.quit)
+        btn_salir = tk.Button(self, text="Salir", width=20, command=self.quit, relief="solid", bd=1)
         btn_salir.pack(pady=10)
 
         # Área de salida (Text widget) para mostrar resultados dentro de la interfaz.
         self.text_output = tk.Text(self, height=10, width=90, wrap="word")
         self.text_output.pack(pady=10)
         self.text_output.configure(state="disabled")  # Hacemos que no sea editable
+        self.text_output.configure(
+                                bd=3,
+                                relief="solid",
+                                padx=10,
+                                pady=5
+                                )
+        
+        self.text_output.configure(
+        background="#fdf6e3",  # fondo tipo sepia
+        foreground="#333333"   # texto gris oscuro
+    )
 
     def clear_text(self):
         self.text_output.configure(state="normal")
@@ -200,7 +212,8 @@ class StatifyApp(tk.Tk):
             self.append_text("Debe ingresar un número válido.")
             return
         canciones = self.process.obtener_n_canciones_populares(self.popularityTree, n)
-        self.append_text(f"Top {n} canciones más populares:\n{canciones}")
+        texto = f"Top {n} canciones más populares:\n" + "\n".join(f"{i+1}. {c}" for i, c in enumerate(canciones))
+        self.append_text(texto) 
 
     def visualizar_arbol(self):
         self.clear_text()

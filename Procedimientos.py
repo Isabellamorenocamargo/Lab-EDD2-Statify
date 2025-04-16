@@ -272,10 +272,7 @@ class Process:
         if contador == None:
             return   # Si el árbol está vacío
         
-        songs = ""
-        for cancion in contador:
-            songs = songs + ", " + str(cancion)
-        return songs
+        return "\n".join(f"• {c}" for c in contador)
     
     #Punto 9 = Implementa un algoritmo que permita obtener las N canciones más populares de la playlist en tiempo O(log(n) + N).
     def obtener_n_canciones_populares(self, arbol_popularidad, N: int):
