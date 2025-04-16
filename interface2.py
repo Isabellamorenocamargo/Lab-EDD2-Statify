@@ -121,27 +121,49 @@ class StatifyApp(tk.Tk):
         self.songsTree = AVL.AVLTree()
         self.artistsTree = AVL.AVLTree()
         self.popularityTree = AVL.AVLTree()
-        artistas_unicos = {}
+        # Se recorre la lista de respuestas en JSON y se obtiene el id de la playlist
+        artistas_unicos = {} #lista de artistas totales del árbol como objetos
+        # Se valida si la playlist es valida para el análisis de datos
+        if len(jsonPlaylist) == 1:
+            if int(jsonPlaylist[0]['error']['status']) == 404:
+                print("Playlist no encontrada")
+                print("Digite un playlist correcta")
+                print(len(jsonPlaylist))
+        else:
+            # Si es valida se recorre la lista de respuestas en JSON
+            for i in range(len(jsonPlaylist)):
+                # Se recorre la lista de items
+                for j in range(len(jsonPlaylist[i]['items'])):
+                    artistList = []
+                    # Se valida si hay tracks para acceder y no se encuentra vacio
+                    if jsonPlaylist[i]['items'][j]['track'] == None:
+                        continue
+                    # Se recorre la lista de artistas para obtener información relevante para nuestro análisis
+                    for k in range(len(jsonPlaylist[i]['items'][j]['track']['artists'])):
 
-        for i in range(len(jsonPlaylist)):
-            for j in range(len(jsonPlaylist[i]['items'])):
-                track_info = jsonPlaylist[i]['items'][j]['track']
-                if not track_info:
-                    continue
-                artistList = []
-                for k in range(len(track_info['artists'])):
-                    artist = track_info['artists'][k]['name']
-                    artistID = track_info['artists'][k]['id']
-                    if artist not in artistas_unicos:
-                        artistas_unicos[artist] = ArtistClass.Artist(self.artistsTree.convertAscii(artistID), artist)
-                    artistList.append(artistas_unicos[artist])
-                    self.artistsTree.generateArtistsTree(artistas_unicos[artist])
-                songID = track_info['id']
-                songName = track_info['name']
-                songDuration = track_info['duration_ms']
-                songPopularity = track_info['popularity']
-                self.songsTree.generateSongsTree(self.songsTree.convertAscii(songID), songName,
-                                                  artistList, songDuration, songPopularity, self.popularityTree)
+                        # Se valida que haya información en cada casilla y asi evitar errores
+                        if jsonPlaylist[i]['items'][j]['track']['artists'][k]['name'] == None or jsonPlaylist[i]['items'][j]['track']['artists'][k]['id'] == None:
+                            continue
+                        artist = jsonPlaylist[i]['items'][j]['track']['artists'][k]['name']
+                        artistID = jsonPlaylist[i]['items'][j]['track']['artists'][k]['id']
+                        if artist not in artistas_unicos:
+                            artistas_unicos[artist] = ArtistClass.Artist(self.artistsTree.convertAscii(artistID), artist)
+                        artistList.append(artistas_unicos[artist]) #Lista de artistas de una cancion como objetos
+                        # Se genera el árbol de artistas
+                        self.artistsTree.generateArtistsTree(artistas_unicos[artist])
+
+                    # Se valida que haya información en cada casilla y asi evitar errores
+                    if (jsonPlaylist[i]['items'][j]['track']['id'] == None or jsonPlaylist[i]['items'][j]['track']['name'] == None 
+                    or jsonPlaylist[i]['items'][j]['track']['duration_ms'] == None or jsonPlaylist[i]['items'][j]['track']['popularity'] == None):
+                        continue
+
+                    # Se obtiene toda la información relevante de la canción
+                    songID = jsonPlaylist[i]['items'][j]['track']['id']
+                    songName = jsonPlaylist[i]['items'][j]['track']['name']
+                    songDuration = jsonPlaylist[i]['items'][j]['track']['duration_ms']
+                    songPopularity = jsonPlaylist[i]['items'][j]['track']['popularity']
+                    # Se genera el árbol de canciones
+                    self.songsTree.generateSongsTree(self.songsTree.convertAscii(songID), songName, artistList, songDuration, songPopularity, self.popularityTree)
         self.clear_text()
         self.append_text("La playlist se ha cargado correctamente.")
 
