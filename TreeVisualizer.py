@@ -59,6 +59,50 @@ class AVLTreeVisualizer:
 
     # Funcion renderizadora
     def render(self, filename="avl_tree_interactivo"):
-        self._add_nodes_edges(self.tree.root) # Agrega los nodos enlazados a aristas al grafico
-        self.dot.render(filename, format="svg", cleanup=True) # Generar una imagen PNG
+        self._add_nodes_edges(self.tree.root)
+
+        # Genera el SVG como string
+        svg_content = self.dot.pipe(format='svg').decode('utf-8')
+
+        # Inserta CSS y JS antes de </svg>
+        svg_content = self.incrustar_estilos_y_scripts(svg_content)
+
+        # Guarda el SVG personalizado
+        with open(filename + '.svg', 'w', encoding='utf-8') as f:
+            f.write(svg_content)
+
         print(f"Árbol AVL guardado como {filename}.svg")
+
+    def incrustar_estilos_y_scripts(self, svg):
+        # CSS embebido
+        estilo = """
+        <style type="text/css">
+            text {
+                font-family: 'Segoe UI', sans-serif;
+                font-size: 18px;
+            }
+            .node:hover polygon{
+            stroke: black;
+            stroke-width: 2;
+            fill: #d0e1ff;
+            }
+            .edge path {
+                stroke-width: 3;
+            }
+        </style>
+        """
+
+        # JS
+        script = """
+        <script type="text/javascript">
+        document.addEventListener("DOMContentLoaded", function() {
+            const svg = document.querySelector("svg");
+            svg.style.transform = "scale(0.5)";
+            svg.style.transformOrigin = "top left";
+        });
+        </script>
+        """
+
+        # Insertar nuevamente en el SVG
+        insert_index = svg.rfind("</svg>")
+        return svg[:insert_index] + estilo + script + svg[insert_index:]
