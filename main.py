@@ -111,11 +111,11 @@ class StatifyApp(tk.Tk):
         use_nueva = messagebox.askquestion("Playlist", "¿Desea usar una playlist nueva?")
         if use_nueva == 'yes':
             playlist = simpledialog.askstring("Playlist", "Inserte la URL de su playlist:")
-            if playlist and "open.spotify.com/playlist/" in playlist:
+            if playlist and "https://open.spotify.com/playlist/" in playlist:
                 self.playlist = playlist.strip()
             else:
-                messagebox.showerror("Error", "URL no válida. Se usará la predeterminada.")
-                self.playlist = "https://open.spotify.com/playlist/3sWwKAETNrcp41VnrfKeT1?si=OYwNXh0fRrGYMuIAS5kODA"
+                messagebox.showerror("Error", "URL no válida.")
+                self.inicializar_playlist()
         else:
             self.playlist = "https://open.spotify.com/playlist/3sWwKAETNrcp41VnrfKeT1?si=OYwNXh0fRrGYMuIAS5kODA"
         self.cargar_playlist()
@@ -265,10 +265,11 @@ class StatifyApp(tk.Tk):
         use_nueva = messagebox.askquestion("Nueva Playlist", "¿Desea usar una playlist nueva?")
         if use_nueva == 'yes':
             playlist = simpledialog.askstring("Playlist", "Inserte la URL de su playlist:")
-            if playlist and "open.spotify.com/playlist/" in playlist:
+            if playlist and "https://open.spotify.com/playlist/" in playlist:
                 self.playlist = playlist.strip()
             else:
-                self.append_text("URL no válida. Se usará la anterior.")
+                messagebox.showerror("Error","URL no válida.")
+                self.consultar_nueva_playlist()
         self.cargar_playlist()
 
 if __name__ == "__main__":
