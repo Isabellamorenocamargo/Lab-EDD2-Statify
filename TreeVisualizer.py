@@ -19,7 +19,7 @@ class AVLTreeVisualizer:
             ranksep='1.8',        # Separación vertical entre nodos
             nodesep='1.5'         # Separación horizontal entre nodos
             )
-
+    # Añadir nodos
     def _add_nodes_edges(self, node):
         if node is None:
             return
@@ -28,6 +28,7 @@ class AVLTreeVisualizer:
 
         label = f"{(node.name)}"
 
+        # Comentario sobre los nodos al hacer "Hover"
         tooltip = ""
         if self.mostrar_tooltip and self.es_arbol_artistas:
             tooltip = f"Duración: {round(node.duracion / 60000, 2)} minutos\nPopularidad: {node.popularidad}" # Mensaje al hacer hover sobre un nodos
@@ -64,7 +65,7 @@ class AVLTreeVisualizer:
         # Genera el SVG como string
         svg_content = self.dot.pipe(format='svg').decode('utf-8')
 
-        # Inserta CSS y JS antes de </svg>
+        # Inserta CSS y JS
         svg_content = self.incrustar_estilos_y_scripts(svg_content)
 
         # Guarda el SVG personalizado
@@ -73,6 +74,8 @@ class AVLTreeVisualizer:
 
         print(f"Árbol AVL guardado como {filename}.svg")
 
+
+    # Personalización de los árboles a través de CSS y JS 
     def incrustar_estilos_y_scripts(self, svg):
         # CSS embebido
         estilo = """

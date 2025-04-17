@@ -65,7 +65,7 @@ class API:
         """
         Obtiene las pistas de una playlist de Spotify usando paginación.
 
-        @param access_token: Token de acceso válido.
+        @param access_token: Token de acceso v?lido.
         @param playlist_id: ID de la playlist.
         @return: Lista de respuestas JSON con la información de las pistas.
         """

@@ -8,6 +8,7 @@ import API
 import webbrowser
 from TreeVisualizer import AVLTreeVisualizer
 
+# Clase principal de la interfaz
 class StatifyApp(tk.Tk):
     def __init__(self):
         super().__init__()
