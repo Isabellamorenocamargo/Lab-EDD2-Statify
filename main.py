@@ -140,9 +140,8 @@ class StatifyApp(tk.Tk):
         # Se valida si la playlist es valida para el análisis de datos
         if len(jsonPlaylist) == 1:
             if int(jsonPlaylist[0]['error']['status']) == 404:
-                print("Playlist no encontrada")
-                print("Digite un playlist correcta")
-                print(len(jsonPlaylist))
+                self.clear_text()
+                self.append_text("La playlist no existe o no está disponible para el análisis de datos.")
         else:
             # Si es valida se recorre la lista de respuestas en JSON
             for i in range(len(jsonPlaylist)):
@@ -178,8 +177,8 @@ class StatifyApp(tk.Tk):
                     songPopularity = jsonPlaylist[i]['items'][j]['track']['popularity']
                     # Se genera el árbol de canciones
                     self.songsTree.generateSongsTree(self.songsTree.convertAscii(songID), songName, artistList, songDuration, songPopularity, self.popularityTree)
-        self.clear_text()
-        self.append_text("La playlist se ha cargado correctamente.")
+            self.clear_text()
+            self.append_text("La playlist se ha cargado correctamente.")
 
     # Funciones para cada opción, ahora limpiando el área de salida antes de mostrar resultados
     def mostrar_artista_con_mas_canciones(self):
