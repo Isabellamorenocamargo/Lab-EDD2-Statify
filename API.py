@@ -92,26 +92,10 @@ class API:
         
         return allResponses
 
-    def obtainImage(self, access_token: str, playlist_id: str) -> list:
-        """
-        Obtiene la imagen de portada de una playlist.
-
-        @param access_token: Token de acceso válido.
-        @param playlist_id: ID de la playlist.
-        @return: Lista JSON con la información de las imágenes.
-        """
-        result = requests.get(
-            f"https://api.spotify.com/v1/playlists/{playlist_id}/images",
-            headers={"Authorization": f"Bearer {access_token}"}
-        )
-
-        jsonResult = result.json()
-        return jsonResult
-
     def startAPI(self, playlist: str):
         """
         Inicia el proceso de conexión con la API, obtiene la información de la playlist
-        e imagen de portada, y guarda ambos en archivos JSON locales.
+        y guarda ambos en archivos JSON locales.
 
         @param playlist: URL completa o ID de la playlist de Spotify.
         """
@@ -122,8 +106,3 @@ class API:
         # Guarda la información de la playlist en un archivo JSON
         with open('playlist.json', 'w', encoding='utf-8') as jsonFile:
             json.dump(jsonPlaylist, jsonFile, ensure_ascii=False, indent=4)
-
-        # Guarda la imagen de la playlist en un archivo JSON
-        image = self.obtainImage(token, playlistId)
-        with open('image.json', 'w', encoding='utf-8') as jsonFile:
-            json.dump(image, jsonFile, ensure_ascii=False, indent=4)
